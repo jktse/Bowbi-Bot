@@ -3,7 +3,7 @@ module.exports = {
 	description: 'A command that will \'kick\' the specified user.',
     usage: '@User',
     cooldown: 5,
-    permissions: 'Kick_MEMBERS',
+    permissions: 'KICK_MEMBERS',
     guildOnly: true,
     args: true,
 	execute(message, args) {

@@ -2,7 +2,7 @@ const {prefix} = require('../config.json');
 module.exports = {
 	name: 'message',
 	once: false,
-	execute(message, client, Discord) {
+	execute(message, client, Discord, queue) {
 		// Check if this is a command...
         // If not then we will exit callback
         if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -64,7 +64,7 @@ module.exports = {
         }
 
         try {
-            command.execute(message, args);
+            command.execute(message, args, client, queue);
         } catch (error) {
             console.error(error);
             message.reply('there was an error trying to execute that command!');

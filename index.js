@@ -18,6 +18,9 @@ client.commands = new Discord.Collection();
 //Gets subfolders
 const commandFolders = fs.readdirSync('./commands');
 
+//Get queue from queue.js
+const queue = require('./queue.js');
+
 // This allows us to dynamically add commands with subfolders
 for (const folder of commandFolders) {
 	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
@@ -32,8 +35,8 @@ for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args, client, Discord));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args, client, Discord));
+	} else{
+		client.on(event.name, (...args) => event.execute(...args, client, Discord, queue));
 	}
 }
 
