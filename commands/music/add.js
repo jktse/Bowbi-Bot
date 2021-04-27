@@ -11,7 +11,7 @@ module.exports = {
 		if(ytdl.validateURL(args[0])){
 			queue.add(['yt', args[0]]);
 			var count = queue.count;
-			if(count > 1){
+			if(count > 0){
 				message.channel.send('Currently this was added to the queue and it is in position: ' + count);
 			}
 		}else{

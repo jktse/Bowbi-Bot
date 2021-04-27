@@ -9,20 +9,25 @@ module.exports = {
 	execute(message, args, client, queue) {
         if (message.member.voice.channel) {
             message.member.voice.channel.join().then(connection =>{
-                while(queue.count != 0){
-                    data = queue.array[0];
-                    console.log("Debug 1");
-                    if(data[0] === 'yt'){
-                        const stream = ytdl(data[1], {filter: 'audioonly', volume: 0.25});
-                        console.log("Debug 2");
-                        const dispatcher = connection.play(stream);
-                        console.log("Debug 3");
-                        dispatcher.on('start', () => {
-                            message.channel.send("Now playing: " + data[1]);
-                        });
-                        console.log("Debug 4");
-                    }
-                    queue.remove();
+                data = queue.array[0];
+                if(data[0] === 'yt'){
+                    const stream = ytdl(data[1], {filter: 'audioonly'});
+                    const dispatcher = connection.play(stream);
+                    dispatcher.on('start', () => {
+                        message.channel.send("Now playing: " + data[1]);
+                        dispatcher.setVolume(0.25);
+                    });
+                    dispatcher.on('finish', () => {
+                        console.log("Finished playing: " + data[1])
+                        queue.remove();
+                        if(queue.count != 0){
+                            this.execute(message, args, client, queue);
+                        }else{
+                            console.log("No more music in queue.");
+                            message.channel.send("No more music left in queue.");
+                            connection.disconnect();
+                        }
+                    });
                 }
             })
         }else{
