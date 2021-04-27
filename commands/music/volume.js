@@ -6,6 +6,7 @@ module.exports = {
 	cooldown: 5,
 	guildOnly: true,
     args: true,
+    permissions: 'MOVE_MEMBERS',
 	execute(message, args, client, queue, player) {
         if(player.playing == true || !isNaN(args[0])){
             if(args[0] >= 0 && args[0] <= 100){

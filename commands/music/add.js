@@ -6,6 +6,7 @@ module.exports = {
 	cooldown: 5,
 	guildOnly: true,
     args: true,
+	permissions: 'MOVE_MEMBERS',
 	execute(message, args, client, queue) {
 		if(ytdl.validateURL(args[0])){
 			queue.add(['yt', args[0]]);
