@@ -8,5 +8,5 @@ queue = module.exports = {
     remove: function(){
         queue.array.shift();
         queue.count = queue.count - 1;
-    },
+    },    
 };

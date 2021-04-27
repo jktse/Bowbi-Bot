@@ -1,4 +1,3 @@
-const { array } = require("../../queue");
 const ytdl = require('ytdl-core');
 module.exports = {
 	name: 'play',
@@ -6,32 +5,40 @@ module.exports = {
 	usage: '',
 	cooldown: 5,
     permissions: 'MOVE_MEMBERS',
-	execute(message, args, client, queue) {
-        if (message.member.voice.channel) {
+	execute(message, args, client, queue, player) {
+        if (message.member.voice.channel && queue.count > 0) {
             message.member.voice.channel.join().then(connection =>{
+                player.setPlaying(true);
                 data = queue.array[0];
                 if(data[0] === 'yt'){
                     const stream = ytdl(data[1], {filter: 'audioonly'});
-                    const dispatcher = connection.play(stream);
-                    dispatcher.on('start', () => {
+                    player.controlInit(connection.play(stream));
+                    player.control.on('start', () => {
                         message.channel.send("Now playing: " + data[1]);
-                        dispatcher.setVolume(0.25);
+                        player.control.setVolume(0.25);
                     });
-                    dispatcher.on('finish', () => {
+                    player.control.on('finish', () => {
                         console.log("Finished playing: " + data[1])
                         queue.remove();
                         if(queue.count != 0){
-                            this.execute(message, args, client, queue);
+                            this.execute(message, args, client, queue, player);
                         }else{
                             console.log("No more music in queue.");
                             message.channel.send("No more music left in queue.");
+                            player.setPlaying(false);
                             connection.disconnect();
                         }
                     });
                 }
             })
         }else{
-            message.reply(`you are not in a voice channel so I am very confused.\nPlease join a voice channel so I know where to go.`)
+            if(player.playing == true){
+                message.reply(`I am currently playing, either terminate me !stop, or wait until I am done`);
+            }else if(queue.count == 0){
+                message.reply(`I have no songs queues up, please queue up some songs before playing`);
+            }else{
+                message.reply(`you are not in a voice channel so I am very confused.\nPlease join a voice channel so I know where to go.`);
+            }
         }
 	},
 };
