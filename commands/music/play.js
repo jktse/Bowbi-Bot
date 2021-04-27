@@ -1,7 +1,7 @@
 const ytdl = require('ytdl-core');
 module.exports = {
 	name: 'play',
-	description: 'Gets the Bot to join the voice channel that message came from.',
+	description: 'Gets the Bot to join the voice channel that message came from and play from queue',
 	usage: '',
 	cooldown: 5,
     permissions: 'MOVE_MEMBERS',
@@ -19,8 +19,12 @@ module.exports = {
                     });
                     player.control.on('finish', () => {
                         console.log("Finished playing: " + data[1])
-                        queue.remove();
-                        if(queue.count != 0){
+                        if(queue.count == 0){
+                            console.log("Nothing left");
+                        }else{
+                            queue.remove();
+                        }
+                        if(queue.count > 0){
                             this.execute(message, args, client, queue, player);
                         }else{
                             console.log("No more music in queue.");

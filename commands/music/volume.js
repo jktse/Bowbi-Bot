@@ -1,7 +1,7 @@
 const ytdl = require('ytdl-core');
 module.exports = {
 	name: 'volume',
-	description: 'Stops the current song and plays the next one on the list',
+	description: 'Changes the volume level of the bot',
 	usage: '[Number from 0 to 100]',
 	cooldown: 5,
 	guildOnly: true,
