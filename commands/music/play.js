@@ -15,7 +15,7 @@ module.exports = {
                     player.controlInit(connection.play(stream));
                     player.control.on('start', () => {
                         message.channel.send("Now playing: " + data[1]);
-                        player.control.setVolume(0.25);
+                        message.channel.send("Number of songs in queue: " + queue.count);
                     });
                     player.control.on('finish', () => {
                         console.log("Finished playing: " + data[1])
@@ -27,10 +27,13 @@ module.exports = {
                         if(queue.count > 0){
                             this.execute(message, args, client, queue, player);
                         }else{
+                            const start = Date.now();
+                            var now = Date.now();
+
                             console.log("No more music in queue.");
                             message.channel.send("No more music left in queue.");
+
                             player.setPlaying(false);
-                            connection.disconnect();
                         }
                     });
                 }
