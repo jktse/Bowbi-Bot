@@ -59,6 +59,7 @@ module.exports = {
 	name: 'add',
 	description: 'Adds the link provided into the queue of music we are going to play. (only supports Youtube ATM)',
 	usage: '[Link to music]',
+	aliases: ['a'],
 	cooldown: 5,
 	guildOnly: true,
     args: true,

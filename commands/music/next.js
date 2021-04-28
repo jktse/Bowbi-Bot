@@ -3,6 +3,7 @@ module.exports = {
 	name: 'next',
 	description: 'Stops the current song and plays the next one on the list',
 	usage: '',
+	aliases: ['n'],
 	cooldown: 5,
 	guildOnly: true,
     permissions: 'MOVE_MEMBERS',

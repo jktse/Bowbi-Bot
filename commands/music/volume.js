@@ -3,6 +3,7 @@ module.exports = {
 	name: 'volume',
 	description: 'Changes the volume level of the bot',
 	usage: '[Number from 0 to 100]',
+    aliases: ['v'],
 	cooldown: 5,
 	guildOnly: true,
     args: true,

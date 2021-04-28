@@ -1,7 +1,8 @@
 const ytdl = require('ytdl-core');
 module.exports = {
 	name: 'stop',
-	description: 'Stops the bot and make it leave',
+	description: 'Clear all the data in the queue.',
+	aliases: ['s'],
 	usage: '',
 	cooldown: 5,
 	guildOnly: true,

@@ -12,5 +12,8 @@ queue = module.exports = {
     clear: function(){
         queue.array = [];
         queue.count = 0;
+    },
+    get: function(index){
+        return queue.array[index];
     }    
 };

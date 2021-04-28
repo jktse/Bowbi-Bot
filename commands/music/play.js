@@ -6,7 +6,7 @@ module.exports = {
 	cooldown: 5,
     permissions: 'MOVE_MEMBERS',
 	execute(message, args, client, queue, player) {
-        if (message.member.voice.channel && queue.count > 0) {
+        if (message.member.voice.channel && queue.count > 0 && player.playing == false) {
             message.member.voice.channel.join().then(connection =>{
                 player.setPlaying(true);
                 data = queue.array[0];
@@ -31,7 +31,7 @@ module.exports = {
                             var now = Date.now();
 
                             console.log("No more music in queue.");
-                            message.channel.send("No more music left in queue.");
+                            message.channel.send("No more music left in queue.\nWhen you have songs loaded into the queue please tell me when to start again (!play)");
 
                             player.setPlaying(false);
                         }
@@ -40,7 +40,7 @@ module.exports = {
             })
         }else{
             if(player.playing == true){
-                message.reply(`I am currently playing, either terminate me !stop, or wait until I am done`);
+                message.reply(`I am currently playing in another voice channel, please terminate me (!stop).`);
             }else if(queue.count == 0){
                 message.reply(`I have no songs queues up, please queue up some songs before playing`);
             }else{
