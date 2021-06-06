@@ -6,37 +6,39 @@ module.exports = {
 	cooldown: 5,
     permissions: 'MOVE_MEMBERS',
 	execute(message, args, client, queue, player) {
-        if (message.member.voice.channel && queue.count > 0 && player.playing == false) {
+        if (message.member.voice.channel && queue.count > 0) {
             message.member.voice.channel.join().then(connection =>{
                 player.setPlaying(true);
                 data = queue.array[0];
                 if(data[0] === 'yt'){
                     const stream = ytdl(data[1], {filter: 'audioonly'});
                     player.controlInit(connection.play(stream));
-                    player.control.on('start', () => {
-                        message.channel.send("Now playing: " + data[1]);
-                        message.channel.send("Number of songs in queue: " + queue.count);
-                    });
-                    player.control.on('finish', () => {
-                        console.log("Finished playing: " + data[1])
-                        if(queue.count == 0){
-                            console.log("Nothing left");
-                        }else{
-                            queue.remove();
-                        }
-                        if(queue.count > 0){
-                            this.execute(message, args, client, queue, player);
-                        }else{
-                            const start = Date.now();
-                            var now = Date.now();
-
-                            console.log("No more music in queue.");
-                            message.channel.send("No more music left in queue.\nWhen you have songs loaded into the queue please tell me when to start again (!play)");
-
-                            player.setPlaying(false);
-                        }
-                    });
+                }else if(data[0] === 'fi'){
+                    player.controlInit(connection.play(data[1]));
                 }
+                player.control.on('start', () => {
+                    message.channel.send("Now playing: " + data[1]);
+                    message.channel.send("Number of songs in queue: " + queue.count);
+                });
+                player.control.on('finish', () => {
+                    console.log("Finished playing: " + data[1])
+                    if(queue.count == 0){
+                        console.log("Nothing left");
+                    }else{
+                        queue.remove();
+                    }
+                    if(queue.count > 0){
+                        this.execute(message, args, client, queue, player);
+                    }else{
+                        const start = Date.now();
+                        var now = Date.now();
+
+                        console.log("No more music in queue.");
+                        message.channel.send("No more music left in queue.\nWhen you have songs loaded into the queue please tell me when to start again (!play)");
+
+                        player.setPlaying(false);
+                    }
+                });
             })
         }else{
             if(player.playing == true){

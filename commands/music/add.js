@@ -3,6 +3,7 @@ const YOUTUBE_PLAYLIST_ITEMS_API = 'https://www.googleapis.com/youtube/v3/playli
 const YOUTUBE_WATCH = 'https://www.youtube.com/watch?v=';
 const {apiKey} = require('../../config.json');
 const fetch = require("node-fetch");
+const fs = require('fs');
 
 async function massLoader(data, queue, Playid, message){
 	var token = null;
@@ -78,7 +79,32 @@ module.exports = {
 			getServerSideProps(playlistId[1], token, queue, message).then(data => {
 			});
 		}else{
-			message.reply("This is not a valid link.")
+			console.log("Trying FI");
+			var dir = ''
+			for(i = 0; i < args.length; i ++){
+				dir = dir + args[i];
+				if(i + 1 < args.length){
+					dir = dir + ' ';
+				}
+			}
+			dir = dir + '\\';
+			try {
+				console.log("Trying " + dir);
+				const files = fs.readdirSync(dir);
+
+				//File object cintains all file names
+
+				files.forEach(file => {
+					queue.add(['fi', dir + file]);
+					var count = queue.count;
+					if(count > 0){
+						message.channel.send('Currently this was added to the queue and it is in position: ' + count);
+					}
+				});
+			} catch (err){
+				console.error(err);
+				message.reply(err);
+			}
 		}
 	},
 };
