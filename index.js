@@ -1,11 +1,14 @@
 // Enable Node's file system
 const fs = require('fs');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 // require the discord.js module
 const Discord = require('discord.js');
 
 // Enable config.json to be used
-const {token} = require('./config.json');
+const token = process.env.token;
 
 // create a new DIscord client
 const client = new Discord.Client();

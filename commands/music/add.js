@@ -1,7 +1,9 @@
 const ytdl = require('ytdl-core');
 const YOUTUBE_PLAYLIST_ITEMS_API = 'https://www.googleapis.com/youtube/v3/playlistItems';
 const YOUTUBE_WATCH = 'https://www.youtube.com/watch?v=';
-const {apiKey} = require('../../config.json');
+const dotenv = require('dotenv');
+dotenv.config();
+const apiKey = process.env.apiKey;
 const fetch = require("node-fetch");
 const fs = require('fs');
 
